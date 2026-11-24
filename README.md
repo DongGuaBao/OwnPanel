@@ -24,9 +24,11 @@ go build -o bin/ownpanel-agent ./cmd/agent
 
 [FileSearch](https://github.com/DongGuaBao/FileSearch) 作为 Git 子模块固定在 `8b68f3b80d48db9eef12229f2465c0fe28a95a16`。克隆时使用 `--recurse-submodules`，或执行上面的初始化命令。
 
-在 Linux 上安装 CMake 3.22+、支持 C++20 的编译器、SQLite3 开发库和 Python 3后，执行 `cmake -S FileSearch -B data/build/filesearch -DCMAKE_BUILD_TYPE=Release` 和 `cmake --build data/build/filesearch --target FileSearchServiceLinux`。服务接受扫描根目录和私有状态目录两个参数。在 Agent 环境中设置 `OWNPANEL_FILESEARCH_SOCKET`，指向该状态目录的 `search.sock`，即可使用文件名索引和目录大小统计。
+在 Linux 上安装 CMake 3.22+、支持 C++20 的编译器、SQLite3 开发库和 Python 3 后，执行 `cmake -S FileSearch -B data/build/filesearch -DCMAKE_BUILD_TYPE=Release` 和 `cmake --build data/build/filesearch --target FileSearchServiceLinux`。服务接受扫描根目录和私有状态目录两个参数。在 Agent 环境中设置 `OWNPANEL_FILESEARCH_SOCKET`，指向该状态目录的 `search.sock`，即可使用文件名索引和目录大小统计。
 
 ## 开发与测试
+
+贡献前请阅读 [AGENTS.md](AGENTS.md)，了解代码组织、界面约定和提交检查。
 
 前端用 Vue 3 和 Element Plus，源码在 `web/src/`。运行 `npm run dev --prefix web` 开启 Vite 开发服务。Go 入口位于 `cmd/server/` 和 `cmd/agent/`，共享实现位于 `internal/panel/`。
 
