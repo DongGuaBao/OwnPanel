@@ -3,6 +3,7 @@
 set -euo pipefail
 root=$(cd -- "$(dirname -- "$0")/.." && pwd -P)
 cd "$root"
+if ! command -v go >/dev/null; then export PATH="$PATH:/usr/local/go/bin"; fi
 [[ $(id -u) != 0 ]] || { echo 'Run without sudo' >&2; exit 1; }
 export GOCACHE="$root/data/build/go-cache" GOMODCACHE="$root/data/build/go-mod" TMPDIR="$root/data/build/tmp"
 mkdir -p "$TMPDIR" bin
