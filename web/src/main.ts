@@ -1,0 +1,17 @@
+import { createApp } from "vue";
+import App from "./App.vue";
+import { ElButton, ElInput, ElSelect, ElOption, ElDialog, ElCheckbox, ElInputNumber, ElTabs, ElTabPane, ElForm, ElFormItem, ElRow, ElCol, ElSpace } from "element-plus";
+import "element-plus/dist/index.css";
+import "./layout.css";
+const app = createApp(App);
+app.component("ElButton", ElButton);
+app.component("ElInput", ElInput);
+app.component("ElSelect", ElSelect);
+app.component("ElOption", ElOption);
+app.component("ElDialog", ElDialog);
+app.component("ElCheckbox", ElCheckbox);
+app.component("ElInputNumber", ElInputNumber);
+app.component("ElTabs", ElTabs);
+app.component("ElTabPane", ElTabPane);
+for (const [name, component] of Object.entries({ ElForm, ElFormItem, ElRow, ElCol, ElSpace })) app.component(name, component);
+app.mount("#app");

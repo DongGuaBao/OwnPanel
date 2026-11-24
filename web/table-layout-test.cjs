@@ -1,0 +1,13 @@
+const fs=require('node:fs'),assert=require('node:assert/strict'),ts=require('typescript');
+const output=ts.transpileModule(fs.readFileSync(__dirname+'/src/table-layout.ts','utf8'),{compilerOptions:{module:ts.ModuleKind.CommonJS,target:ts.ScriptTarget.ES2022}}).outputText;
+const m={exports:{}};new Function('require','exports','module',output)(require,m.exports,m);
+const {cleanTableLayout,compareTableValues,useTableLayout}=m.exports;
+assert.ok(compareTableValues(1024,9000)<0,'sizes compare numerically');
+assert.ok(compareTableValues('file2','file10')<0,'filenames compare naturally');
+assert.equal(compareTableValues('同名','同名'),0);
+for(const input of [null,undefined,1,'bad',{}, {order:'broken',widths:'broken',sort:{key:3,direction:'ascending'}}])assert.deepEqual(cleanTableLayout(input),{order:[],widths:{},sort:null});
+const clean=cleanTableLayout({order:['name','name',null,4,'size'],widths:{name:-1,size:999999,date:NaN,bad:'100'},sort:{key:'size',direction:'descending'}});
+assert.deepEqual(clean.order,['name','size']);assert.deepEqual(clean.widths,{name:44,size:1600});assert.equal(clean.sort.key,'size');
+global.localStorage={getItem(){throw Error('blocked')},setItem(){throw Error('blocked')}};
+const a=useTableLayout('blocked'),b=useTableLayout('blocked');a.save({order:['size','name'],widths:{size:180},sort:{key:'size',direction:'ascending'}});assert.equal(b.state.value.sort.key,'size','open panes share preferences even with storage blocked');
+console.log('PASS numeric/natural sorting, invalid preferences, width limits and shared layout with blocked browser storage');

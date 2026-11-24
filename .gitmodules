@@ -1,0 +1,3 @@
+[submodule "FileSearch"]
+	path = FileSearch
+	url = https://github.com/DongGuaBao/FileSearch.git
